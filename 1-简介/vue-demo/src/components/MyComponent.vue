@@ -25,7 +25,10 @@
           ]
         },
         firstName: 'John',
-        lastName: 'Doe'
+        lastName: 'Doe',
+        isActive: true,
+        hasError: false,
+        awesome: true,
       }
     },
 
@@ -103,4 +106,18 @@
   <p>{{ now }}</p>
 
   <span>{{ this.fullName }}</span>
+
+  <div class="static" :class="{ active: isActive, 'text-danger': hasError }">class</div>
+
+  <button @click="awesome = !awesome">切换</button>
+
+  <h1 v-if="awesome">Vue最棒啦</h1>
+  <h1 v-else>这是else</h1>
+
+  <h1 v-show="awesome">HELLO</h1>
+  <!-- v-show会在DOM渲染中保留该节点，仅仅切换了该元素的display的CSS属性 -->
+
+  <!-- v-if VS v-show -->
+  <!-- v-if是真是的按条件渲染，是懒加载的，如果初次渲染为false，不会做任何事，条件区域在条件首次变为true才渲染 ；
+  相比之下，v-show简单许多，无论如何，始终会被渲染，仅做CSS类的切换； 因此，需要频繁切换时，用v-show更好，而不太会改变，用v-if更合适-->
 </template>
