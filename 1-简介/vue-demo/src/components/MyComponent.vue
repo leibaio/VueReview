@@ -16,25 +16,60 @@
         message: 'petronas',
         seen: true,
         url: 'https://leibaio.space',
+        author: {
+          name: 'John Doe',
+          books: [
+            'Vue 2 - Advanced Guide',
+            'Vue 3 - Basic Guide',
+            'Vue 4 - The Mystery'
+          ]
+        },
+        firstName: 'John',
+        lastName: 'Doe'
       }
     },
 
     methods: {
       increment() {
         this.count++
+      },
+      doSomething() {
+        alert("123")
       }
     },
 
     mounted() {
+      // `this`指向当前组件实例
+      this.count = 2;     
       console.log(`The initial count is ${this.count}.`);
+    },
+
+    computed: {
+      // 一个计算属性的 getter
+      publishedBooksMessage() {
+        // `this` 指向当前组件实例
+        return this.author.books.length > 0 ? 'Yes' : 'No'
+      },
+      now() {
+        return Date.now()
+      },
+      fullName: {
+        // getter
+        get() {
+          return this.firstName + ' ' + this.lastName
+        },
+        // setter
+        set(newValue) {
+          //使用解构赋值
+          [this.firstName, this.lastName] = newValue.split(' ')
+        }
+      }
     }
   }
 </script>
 
 <template>    
   <button @click="increment">the count is: {{ count }}</button>
-
-  <br>
 
   <span>Message: {{ msg }}</span>
 
@@ -58,5 +93,14 @@
 
   <a :href="url"> ... </a>
 
-  <p @click=""> click me </p>
+  <button @click="doSomething"> click me </button>
+
+  <button @click="increment">{{ count }}</button>
+
+  <p>Has published books:</p>
+  <span>{{ publishedBooksMessage }}</span>
+
+  <p>{{ now }}</p>
+
+  <span>{{ this.fullName }}</span>
 </template>
