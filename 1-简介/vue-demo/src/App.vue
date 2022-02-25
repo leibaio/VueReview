@@ -2,9 +2,11 @@
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
 import MyComponent from './components/MyComponent.vue';
+import ElementUIDemo from './components/ElementUIDemo.vue';
 </script>
 
 <template>
+  <!-- <ElementUIDemo></ElementUIDemo> -->
   <MyComponent></MyComponent>
   <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />

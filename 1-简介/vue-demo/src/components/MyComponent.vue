@@ -37,7 +37,8 @@
           publishedAt: '2022-02-22'
         },
         numbers: [1, 2, 3, 4, 5],
-        sets: [[1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]]
+        sets: [[1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]],
+        name: 'Vue.js'
       }
     },
 
@@ -50,6 +51,17 @@
       },
       even(numbers) {
         return this.numbers.filter(n => n % 2 === 0)   
+      },
+      greet(event) {
+        // 方法中的`this`指向当前活跃的组件
+        alert(`Hello ${this.name}!`)
+        // `event` 是原生DOM事件
+        if (event) {
+          alert(event.target.tagName)
+        }
+      },
+      say(message) {
+        alert(message)
       }
     },
 
@@ -88,7 +100,18 @@
 </script>
 
 <template>    
+  <!-- 内联事件处理器常用于简单场景，如 -->
   <button @click="increment">the count is: {{ count }}</button>
+
+  <!-- 当事件处理器逻辑变得复杂，v-on也接受方法名或者某个方法的访问 -->
+  <button @click="greet">Greet</button>
+
+  <!-- 在内联处理器调用方法 -->
+  <button @click="say('hello')">say hello</button>
+  <button @click="say('bye')">say bye</button>
+
+  <!-- 在内联事件处理器中访问事件参数 -->
+
 
   <span>Message: {{ msg }}</span>
 
@@ -198,3 +221,7 @@
 
   <!-- 对于reverse() 和 sort() 保持谨慎，会改变原始数组，计算函数中不应该这么做。调用之前创建数组 -->
 </template>
+
+<style scoped>
+
+</style>
