@@ -38,7 +38,9 @@
         },
         numbers: [1, 2, 3, 4, 5],
         sets: [[1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]],
-        name: 'Vue.js'
+        name: 'Vue.js',
+        inputMsg: '',
+        checkedNames: [],
       }
     },
 
@@ -100,6 +102,46 @@
 </script>
 
 <template>    
+  <!-- 表单输入绑定 -->
+  <input :value="text" @input="event => text = event.target.value">
+  <!-- 在处理表单时，手动连接值绑定和更改事件监听器可能会麻烦，v-model 简化了这一步骤 -->
+  <input v-model="text">
+
+  <!-- 基本用法：文本 -->
+  <p>输入的信息: {{ inputMsg }}</p>
+  <input v-model="inputMsg" placeholder="edit me">
+
+  <!-- 多行文本 -->
+  <span>多行信息: {{ inputMsg }}</span>
+  <p style="white-space: pre-line;"> {{ inputMsg }}</p>
+  <textarea v-model="inputMsg" placeholder="add multiple lines"></textarea>
+
+  <!-- 复选框 -->
+  <input type="checkbox" id="checkbox" v-model="checked">
+  <label for="checkbox">{{ checked }}</label>
+
+  <!-- 可以将多个复选框绑定到同一个数组或者集合 -->
+  <div>选择的名字有: {{ checkedNames }}</div>
+
+  <input type="checkbox" id="jack" value="jack" v-model="checkedNames">
+  <label for="jack">jack</label>
+
+  <input type="checkbox" id="tom" value="tom" v-model="checkedNames">
+  <label for="tom">tom</label>
+
+  <input type="checkbox" id="mike" value="mike" v-model="checkedNames">
+  <label for="mike">mike</label>
+
+  <!-- 修饰符 -->
+  <!-- 默认情况下，v-model 会在每次input后更新数据（IME composition阶段的状态除外）。可以添加 lazy 修饰符来改为每次 change 事件后更新数据： -->
+  <input type="text" v-model.lazy="msg">
+
+  <!-- 如果想让用户输入自动转换为数字，可以在v-model后添加 .number 来管理输入 -->
+  <input type="text" v-model.number="age" />
+
+  <!-- 如果要默认自动去除用户输入内容中两端的空格，可以在v-model后添加 .tirm -->
+  <input type="text" v-model.trim="msg">
+
   <!-- 内联事件处理器常用于简单场景，如 -->
   <button @click="increment">the count is: {{ count }}</button>
 
@@ -111,6 +153,8 @@
   <button @click="say('bye')">say bye</button>
 
   <!-- 在内联事件处理器中访问事件参数 -->
+  <!-- 事件修饰符 -->
+  <!-- 按键修饰符 -->
 
 
   <span>Message: {{ msg }}</span>

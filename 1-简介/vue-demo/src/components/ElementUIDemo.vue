@@ -1,137 +1,76 @@
 <template>
-  <el-container
-    class="layout-container-demo"
-    style="height: 500px; border: 1px solid #eee"
+  <el-radio-group v-model="direction">
+    <el-radio label="ltr">left to right</el-radio>
+    <el-radio label="rtl">right to left</el-radio>
+    <el-radio label="ttb">top to bottom</el-radio>
+    <el-radio label="btt">bottom to top</el-radio>
+  </el-radio-group>
+
+  <el-button type="primary" style="margin-left: 16px" @click="drawer = true">
+    open
+  </el-button>
+  <el-button type="primary" style="margin-left: 16px" @click="drawer2 = true">
+    with footer
+  </el-button>
+
+  <el-drawer
+    v-model="drawer"
+    title="I am the title"
+    :direction="direction"
+    :before-close="handleClose"
   >
-    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-scrollbar>
-        <el-menu :default-openeds="['1', '3']">
-          <el-sub-menu index="1">
-            <template #title>
-              <el-icon><message /></el-icon>Navigator One
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="1-1">Option 1</el-menu-item>
-              <el-menu-item index="1-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="1-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="1-4">
-              <template #title>Option4</template>
-              <el-menu-item index="1-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-sub-menu index="2">
-            <template #title>
-              <el-icon><icon-menu /></el-icon>Navigator Two
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="2-1">Option 1</el-menu-item>
-              <el-menu-item index="2-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="2-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="2-4">
-              <template #title>Option 4</template>
-              <el-menu-item index="2-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-          <el-sub-menu index="3">
-            <template #title>
-              <el-icon><setting /></el-icon>Navigator Three
-            </template>
-            <el-menu-item-group>
-              <template #title>Group 1</template>
-              <el-menu-item index="3-1">Option 1</el-menu-item>
-              <el-menu-item index="3-2">Option 2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="Group 2">
-              <el-menu-item index="3-3">Option 3</el-menu-item>
-            </el-menu-item-group>
-            <el-sub-menu index="3-4">
-              <template #title>Option 4</template>
-              <el-menu-item index="3-4-1">Option 4-1</el-menu-item>
-            </el-sub-menu>
-          </el-sub-menu>
-        </el-menu>
-      </el-scrollbar>
-    </el-aside>
-
-    <el-container>
-      <el-header style="text-align: right; font-size: 12px">
-        <div class="toolbar">
-          <el-dropdown>
-            <el-icon style="margin-right: 8px; margin-top: 1px"
-              ><setting
-            /></el-icon>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item>View</el-dropdown-item>
-                <el-dropdown-item>Add</el-dropdown-item>
-                <el-dropdown-item>Delete</el-dropdown-item>
-              </el-dropdown-menu>
-            </template>
-          </el-dropdown>
-          <span>Tom</span>
-        </div>
-      </el-header>
-
-      <el-main>
-        <el-scrollbar>
-          <el-table :data="tableData">
-            <el-table-column prop="date" label="Date" width="140">
-            </el-table-column>
-            <el-table-column prop="name" label="Name" width="120">
-            </el-table-column>
-            <el-table-column prop="address" label="Address"> </el-table-column>
-          </el-table>
-        </el-scrollbar>
-      </el-main>
-    </el-container>
-  </el-container>
+    <span>Hi, there!</span>
+  </el-drawer>
+  <el-drawer v-model="drawer2" :direction="direction">
+    <template #title>
+      <h4>set title by slot</h4>
+    </template>
+    <template #default>
+      <div>
+        <el-radio v-model="radio1" label="Option 1" size="large"
+          >Option 1</el-radio
+        >
+        <el-radio v-model="radio1" label="Option 2" size="large"
+          >Option 2</el-radio
+        >
+      </div>
+    </template>
+    <template #footer>
+      <div style="flex: auto">
+        <el-button @click="cancelClick">cancel</el-button>
+        <el-button type="primary" @click="confirmClick">confirm</el-button>
+      </div>
+    </template>
+  </el-drawer>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { Message, Menu as IconMenu, Setting } from '@element-plus/icons-vue'
+import { ElMessageBox } from 'element-plus'
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+const drawer = ref(false)
+const drawer2 = ref(false)
+const direction = ref('rtl')
+const radio1 = ref('Option 1')
+const handleClose = (done: () => void) => {
+  ElMessageBox.confirm('Are you sure you want to close this?')
+    .then(() => {
+      done()
+    })
+    .catch(() => {
+      // catch error
+    })
 }
-const tableData = ref(Array(20).fill(item))
+function cancelClick() {
+  drawer2.value = false
+}
+function confirmClick() {
+  ElMessageBox.confirm(`Are you confirm to chose ${radio1.value} ?`)
+    .then(() => {
+      drawer2.value = false
+    })
+    .catch(() => {
+      // catch error
+    })
+}
 </script>
-
-<style scoped>
-.layout-container-demo .el-header {
-  position: relative;
-  background-color: #b3c0d1;
-  color: var(--el-text-color-primary);
-}
-.layout-container-demo .el-aside {
-  width: 240px;
-  color: var(--el-text-color-primary);
-  background: #fff !important;
-  border-right: solid 1px #e6e6e6;
-  box-sizing: border-box;
-}
-.layout-container-demo .el-menu {
-  border-right: none;
-}
-.layout-container-demo .el-main {
-  padding: 0;
-}
-.layout-container-demo .toolbar {
-  position: absolute;
-  display: inline-flex;
-  align-items: center;
-  top: 50%;
-  right: 20px;
-  transform: translateY(-50%);
-}
-</style>
