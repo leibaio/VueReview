@@ -35,7 +35,9 @@
           title: '如何在Vue中渲染列表',
           author: '王小明',
           publishedAt: '2022-02-22'
-        }
+        },
+        numbers: [1, 2, 3, 4, 5],
+        sets: [[1, 2, 3, 4, 5 ], [6, 7, 8, 9, 10]]
       }
     },
 
@@ -45,6 +47,9 @@
       },
       doSomething() {
         alert("123")
+      },
+      even(numbers) {
+        return this.numbers.filter(n => n % 2 === 0)   
       }
     },
 
@@ -55,6 +60,7 @@
     },
 
     computed: {
+      // 计算和方法在结果上相同，但是计算属性值会基于其响应式依赖被缓存
       // 一个计算属性的 getter
       publishedBooksMessage() {
         // `this` 指向当前组件实例
@@ -73,7 +79,10 @@
           //使用解构赋值
           [this.firstName, this.lastName] = newValue.split(' ')
         }
-      }
+      },
+      evenNumbers() {
+        return this.numbers.filter(n => n % 2 === 0)
+      },
     }
   }
 </script>
@@ -172,4 +181,20 @@
   <div v-for="item in items" :key="item.id">
     <li>{{ item.message }}</li>
   </div>
+
+  <!-- 数组变化侦测 -->
+  <!-- 诱变方法：push() pop() shift()删除第一个元素 unshift()在最前面插入一个或多个元素 splice()从数组中删除指定的一个或多个元素  sort() reverse() -->
+  <!-- 诱变方法，顾名思义，会对调用他们的方法进行更改。相对的，非诱变方法，如filter(), concat(), slice()从数组中提取指定的一个或多个元素，都不会更改原数组，总是返回一个新数组 -->
+
+  <!-- 展示过滤或排序后的结果 -->
+  <ul>
+    <li v-for="n in evenNumbers">{{ n }}</li>
+  </ul>
+
+  <!-- 当计算属性不可行时（比如在多层嵌套的v-for循环中），可以使用methods --> 
+  <ul v-for="numbers in sets">
+    <li v-for="n in even(numbers)">{{ n }}</li>
+  </ul>
+
+  <!-- 对于reverse() 和 sort() 保持谨慎，会改变原始数组，计算函数中不应该这么做。调用之前创建数组 -->
 </template>
