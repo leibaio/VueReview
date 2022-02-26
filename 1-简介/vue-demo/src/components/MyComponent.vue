@@ -64,11 +64,12 @@
       },
       say(message) {
         alert(message)
-      }
+      },
     },
 
     mounted() {
       // `this`指向当前组件实例
+      console.log(`组件现在已被挂载`);
       this.count = 2;     
       console.log(`The initial count is ${this.count}.`);
     },
@@ -102,6 +103,13 @@
 </script>
 
 <template>    
+  <!-- 侦听器 -->
+  <!-- 在选项式 API 中，我们可以使用 watch 在每次响应式 property 发送变化时出发一个函数 -->
+
+  <!-- 生命周期钩子 -->
+  <!-- 注册周期钩子：mounted 钩子可以用来组件完成初始渲染并创建DOM节点后运行代码 -->
+  <!-- 还有一些其他钩子，会在实例生命周期的不同阶段被调用，最常用的 mounted, updated, unmounted ，所有生命周期钩子函数的 this 上下文都会自动指向当前调用它的组件。注意：避免使用箭头函数定义生命周期的钩子，因为这样无法在函数中通过 this 获取组件实例 -->
+
   <!-- 表单输入绑定 -->
   <input :value="text" @input="event => text = event.target.value">
   <!-- 在处理表单时，手动连接值绑定和更改事件监听器可能会麻烦，v-model 简化了这一步骤 -->

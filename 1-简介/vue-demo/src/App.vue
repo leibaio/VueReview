@@ -3,12 +3,16 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from '@/components/HelloWorld.vue'
 import MyComponent from './components/MyComponent.vue';
 import ElementUIDemo from './components/ElementUIDemo.vue';
+import ButtonCounter from './components/ButtonCounter.vue'
+import LearnWatch from './components/LearnWatch.vue';
 </script>
 
 <template>
+  <LearnWatch></LearnWatch>
+  <!-- <ButtonCounter></ButtonCounter> -->
   <!-- <ElementUIDemo></ElementUIDemo> -->
-  <MyComponent></MyComponent>
-  <header>
+  <!-- <MyComponent></MyComponent> -->
+  <!-- <header>
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
@@ -21,7 +25,7 @@ import ElementUIDemo from './components/ElementUIDemo.vue';
     </div>
   </header>
 
-  <RouterView />
+  <RouterView /> -->
 </template>
 
 <style>
