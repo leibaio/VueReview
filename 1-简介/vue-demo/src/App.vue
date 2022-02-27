@@ -5,10 +5,22 @@ import MyComponent from './components/MyComponent.vue';
 import ElementUIDemo from './components/ElementUIDemo.vue';
 import ButtonCounter from './components/ButtonCounter.vue'
 import LearnWatch from './components/LearnWatch.vue';
+import BlogPost from './components/BlogPost.vue';
 </script>
 
 <template>
-  <LearnWatch></LearnWatch>
+  <BlogPost title="我的 Vue 学习之旅" />
+  <BlogPost title="Vue 博客文章总集" />
+  <BlogPost title="为什么 Vue 这么有趣" />
+  <div :style="{ fontSize: postFontSize + 'em' }">
+  <BlogPost
+    v-for="post in posts"
+    :key="post.id"
+    :title="post.title"
+    @enlarge-text="postFontSize += 0.1"
+  />
+  </div>
+  <!-- <LearnWatch></LearnWatch> -->
   <!-- <ButtonCounter></ButtonCounter> -->
   <!-- <ElementUIDemo></ElementUIDemo> -->
   <!-- <MyComponent></MyComponent> -->
